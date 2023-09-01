@@ -9,7 +9,7 @@ export const AuthUser: React.FC = () => {
   const [alignment, setAlignment] = React.useState("login");
 
   const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newAlignment: string
   ) => {
     setAlignment(newAlignment);
@@ -30,7 +30,6 @@ export const AuthUser: React.FC = () => {
       </ToggleButtonGroup>
 
       {alignment === "login" ? <Login /> : <Registration />}
-      
     </div>
   );
 };

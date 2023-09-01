@@ -20,10 +20,14 @@ export const FullPost: React.FC = () => {
     }
   }, []);
 
+  const markdownText = post?.text || ""; // Здесь предполагается, что post?.text может быть null или undefined, поэтому явно устанавливаем его в пустую строку
+
   return (
     <div className="full-post-container">
       <h1 className="full-post-content">{post?.title}</h1>
-      <ReactMarkdown className="full-post-content">{post?.text}</ReactMarkdown>
+      <ReactMarkdown className="full-post-content">
+        {markdownText}
+      </ReactMarkdown>
     </div>
   );
 };
