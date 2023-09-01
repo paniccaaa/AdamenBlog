@@ -1,0 +1,61 @@
+.editor-toolbar button {
+  color: rgb(0, 0, 0);
+}
+
+.test {
+  color: black;
+}
+
+.image-container {
+  img {
+    width: 200px;
+    height: auto;
+  }
+}
+
+.custom-image {
+  color: black;
+  img {
+    max-width: 955px;
+    height: auto;
+    border-radius: 5px;
+
+    @media screen and (max-width: 1044px) {
+      width: 768px;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 508px;
+    }
+
+    @media screen and (max-width: 512px) {
+      width: 300px;
+    }
+  }
+}
+
+.admin_container {
+  background-color: #f7f8f8;
+}
+
+.post_container {
+  display: flex;
+  width: auto;
+  height: 100px;
+  color: black;
+  cursor: pointer;
+  border: 1px solid #f4f3f3;
+  border-radius: 15px;
+  background-color: #e5dfdf;
+  padding: 10px;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.post_h1 {
+  font-size:large;
+}

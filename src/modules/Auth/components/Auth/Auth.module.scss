@@ -1,0 +1,27 @@
+.auth_container {
+  justify-content: center;
+  text-align: center;
+  bottom: 100%;
+  border-radius: 15px;
+  margin: 10%;
+  
+  //background-color: rgb(242,242,242);
+  //background-color: rgb(255, 255, 255);
+}
+.title {
+  color: rgb(0, 0, 0);
+}
+
+.text_field {
+  width: 200px;
+}
+
+.button_container {
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.button_confirm {
+  width: 200px;
+}

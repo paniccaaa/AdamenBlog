@@ -1,0 +1,30 @@
+.full-post-container {
+  justify-content: center;
+  display: block;
+}
+
+.full-post-content {
+  color: black;
+  
+  img {
+    width: 85%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    height: auto;
+    border-radius: 15px;
+    @media screen and (max-width: 1044px) {
+      width: 768px;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 508px;
+    }
+
+    @media screen and (max-width: 512px) {
+      width: 300px;
+    }
+  }
+}
+

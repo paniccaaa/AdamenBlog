@@ -1,0 +1,107 @@
+.title {
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 26px;
+}
+
+.nav {
+  border-radius: 10px;
+  border: 0px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1.1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: transparent;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+  transform: translateY(0);
+  transition: transform 0.16s ease-in-out;
+  &:hover {
+    background-color: rgb(233, 225, 225);
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    transform: translateY(-2px);
+  }
+}
+
+.header_container {
+  display: flex;
+  z-index: 2;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  @media screen and (max-width: 512px) {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  border-bottom: 1px solid grey;
+}
+
+.button_container {
+  display: flex;
+  @media screen and (max-width: 512px) {
+    align-items: center;
+  }
+}
+
+.close_modal {
+  position: absolute;
+  top: 13%;
+  left: 72%;
+  z-index: 9999;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  border: 1px solid rgb(255, 255, 255);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  @media screen and (max-width: 864px) {
+    left: 80%;
+  }
+  @media screen and (max-width: 768px) {
+    left: 65%;
+  }
+
+  @media screen and (max-width: 512px) {
+    top: 25%;
+  }
+  @media screen and (max-width: 415px) {
+    top: 25%;
+  }
+
+  @media screen and (max-width: 375px) {
+    left: 50%;
+    top: 28%;
+  }
+}
+
+.username {
+  color: black;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.5rem;
+  border-bottom-width: 2px;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+
+.exit {
+  &:hover {
+    background-color: rgb(247, 240, 240);
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+  }
+  color: black;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.5rem;
+  border-bottom-width: 2px;
+  align-items: center;
+  width: 100%;
+}
