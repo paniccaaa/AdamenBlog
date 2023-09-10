@@ -24,9 +24,9 @@ export const Login: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  //https://41adf6f41ba9f813.mokky.dev
   const loginUser = async (data: any) => {
-    const res = await fetch("https://501881a3cd249a1b.mokky.dev/auth", {
+    const res = await fetch("https://41adf6f41ba9f813.mokky.dev/auth", {
       method: "POST",
       headers: {
         Accept: "application/json",

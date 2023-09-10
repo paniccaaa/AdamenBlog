@@ -9,7 +9,8 @@ export const handlePostEdit = (
     title: title,
     image: image,
   };
-  fetch(`https://501881a3cd249a1b.mokky.dev/posts/${postId}`, {
+  //https://41adf6f41ba9f813.mokky.dev
+  fetch(`https://41adf6f41ba9f813.mokky.dev/posts/${postId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

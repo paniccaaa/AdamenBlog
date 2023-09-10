@@ -35,9 +35,9 @@ export const Registration: React.FC = () => {
     token: string;
     data: { email: string; password: string; fullName: string; id: number };
   };
-
+  //https://41adf6f41ba9f813.mokky.dev
   const registrationUser = async (data: any) => {
-    const res = await fetch("https://501881a3cd249a1b.mokky.dev/register", {
+    const res = await fetch("https://41adf6f41ba9f813.mokky.dev/register", {
       method: "POST",
       headers: {
         Accept: "application/json",

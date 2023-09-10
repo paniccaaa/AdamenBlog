@@ -10,13 +10,13 @@ type ContentUser = {
   fullName: string;
   id: number;
 };
-
+//https://41adf6f41ba9f813.mokky.dev
 export const fetchDataUser = async (
   accessToken: string | null,
   dispatch: any
 ) => {
   if (accessToken) {
-    const res = await fetch("https://501881a3cd249a1b.mokky.dev/auth_me", {
+    const res = await fetch("https://41adf6f41ba9f813.mokky.dev/auth_me", {
       method: "GET",
       headers: {
         Accept: "application/json",

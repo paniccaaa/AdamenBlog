@@ -9,9 +9,9 @@
 //       alert("Произошла ошибка при удалении поста :(");
 //     });
 // };
-
+//https://41adf6f41ba9f813.mokky.dev
 export const handlePostDelete = (postId: number) => {
-  fetch(`https://501881a3cd249a1b.mokky.dev/posts/${postId}`, {
+  fetch(`https://41adf6f41ba9f813.mokky.dev/posts/${postId}`, {
     method: "DELETE",
   })
     .then((response) => {

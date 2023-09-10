@@ -8,7 +8,8 @@ export const handlePostPublish = (
     title: title,
     image: image,
   };
-  fetch("https://501881a3cd249a1b.mokky.dev/posts", {
+  //https://41adf6f41ba9f813.mokky.dev
+  fetch("https://41adf6f41ba9f813.mokky.dev/posts", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

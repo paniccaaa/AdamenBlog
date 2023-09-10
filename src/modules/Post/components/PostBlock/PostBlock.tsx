@@ -10,12 +10,12 @@ export type PostType = {
   image: string;
   id: number;
 };
-
+//https://41adf6f41ba9f813.mokky.dev
 export const PostBlock: React.FC = () => {
   const [posts, setPostss] = React.useState<PostType[] | []>([]);
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    fetch("https://501881a3cd249a1b.mokky.dev/posts")
+    fetch("https://41adf6f41ba9f813.mokky.dev/posts")
       .then((response) => response.json())
       .then((data) => setPostss(data))
       .catch((error) => {
