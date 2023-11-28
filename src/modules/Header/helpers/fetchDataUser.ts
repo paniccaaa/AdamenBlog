@@ -29,8 +29,7 @@ export const fetchDataUser = async (
       dispatch(setIsAuthenticated(true));
       dispatch(setUsername(content.fullName));
       dispatch(setEmail(content.email));
-    } else {
-      alert("Не получилось(");
+      console.log('token tyt')
     }
   }
 };
