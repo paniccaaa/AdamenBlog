@@ -1,14 +1,15 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./Header.module.scss";
-import { useSelector } from "react-redux";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useAppDispatch } from "../../../../redux/store";
 import {
   selectAuth,
   setIsAuthenticated,
 } from "../../../Auth/store/reducer/authUser";
+
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import React from "react";
 import { fetchDataUser } from "../../helpers/fetchDataUser";
+import styles from "./Header.module.scss";
+import { useAppDispatch } from "../../../../redux/store";
+import { useSelector } from "react-redux";
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -53,12 +54,16 @@ export const Header: React.FC = () => {
           <button className={styles.nav}>Главная</button>
         </Link>
 
+        <Link to="/contacts">
+          <button className={styles.nav}>Контакты</button>
+        </Link>
+
         {!isAuthenticated && (
           <Link to="/auth">
             <button className={styles.nav}>Авторизация</button>
           </Link>
         )}
-
+        
         {username === "paniccaaa" && email === "semaadamenko1337@il.com" && (
           <Link to="/editor">
             <button className={styles.nav}>Редактор</button>

@@ -1,13 +1,14 @@
-import { Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 
-import styles from "./App.module.scss";
-import { AuthForm } from "./pages/AuthForm/components/AuthForm/AuthForm";
-import { Home } from "./pages/Home/components/Home/Home";
-import { Header } from "./modules/Header";
-import { store } from "./redux/store";
 import { Admin } from "./pages/Admin/components/Admin/Admin";
+import { AuthForm } from "./pages/AuthForm/components/AuthForm/AuthForm";
+import { Contacts } from "./pages/Contacts/components/Contacts/Contacts";
 import { FullPost } from "./pages/FullPost/components/FullPost/FullPost";
+import { Header } from "./modules/Header";
+import { Home } from "./pages/Home/components/Home/Home";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import styles from "./App.module.scss";
 
 export const App = () => {
   return (
@@ -18,6 +19,7 @@ export const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<AuthForm />} />
           <Route path="/editor" element={<Admin />} />
+          <Route path="/contacts" element={<Contacts />}/>
           <Route path="/post/:id" element={<FullPost />} />
         </Routes>
       </div>
