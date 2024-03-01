@@ -1,8 +1,7 @@
-import React from "react";
-
-import { useAppDispatch } from "../../../../redux/store";
 import { Post } from "../Post/Post";
+import React from "react";
 import { setPosts } from "../../store/reducer/posts";
+import { useAppDispatch } from "../../../../redux/store";
 
 export type PostType = {
   title: string;

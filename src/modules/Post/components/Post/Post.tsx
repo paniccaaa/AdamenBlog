@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
+import { PostType } from "../PostBlock/PostBlock";
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import { Link } from "react-router-dom";
-
-import { PostType } from "../PostBlock/PostBlock";
 import styles from "./Post.module.scss";
 
 export const Post: React.FC<{ post: PostType }> = ({ post }) => {
+  
+
   const truncateText = (str: string, length: number) => {
     if (str.length >= length) {
       return str.substring(0, length) + "...";

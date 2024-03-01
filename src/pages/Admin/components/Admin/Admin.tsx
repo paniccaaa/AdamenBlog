@@ -1,17 +1,18 @@
-import React from "react";
-import SimpleMDE from "react-simplemde-editor";
-import ReactMarkdown from "react-markdown";
-import { TextField, Button } from "@mui/material";
-import { useSelector } from "react-redux";
 import "easymde/dist/easymde.min.css";
-
-import { selectPosts } from "../../../../modules/Post/store/reducer/posts";
-import { handlePostPublish } from "../../helpers/handlePostPublish";
-import { PostType } from "../../../../modules/Post/components/PostBlock/PostBlock";
-import { truncateText } from "../../helpers/truncateText";
-import { handlePostEdit } from "../../helpers/handlePostEdit ";
-import { handlePostDelete } from "../../helpers/handlePostDelete";
 import "./Admin.scss";
+
+import { Button, TextField } from "@mui/material";
+
+import { PostType } from "../../../../modules/Post/components/PostBlock/PostBlock";
+import React from "react";
+import ReactMarkdown from "react-markdown";
+import SimpleMDE from "react-simplemde-editor";
+import { handlePostDelete } from "../../helpers/handlePostDelete";
+import { handlePostEdit } from "../../helpers/handlePostEdit ";
+import { handlePostPublish } from "../../helpers/handlePostPublish";
+import { selectPosts } from "../../../../modules/Post/store/reducer/posts";
+import { truncateText } from "../../helpers/truncateText";
+import { useSelector } from "react-redux";
 
 export const Admin: React.FC = () => {
   const [value, setValue] = React.useState("Initial value");
@@ -91,3 +92,4 @@ export const Admin: React.FC = () => {
     </div>
   );
 };
+
