@@ -7,7 +7,7 @@ import { PostType } from "../../../../modules/Post/components/PostBlock/PostBloc
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 export const FullPost: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); 
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<PostType | null>(null);
 
@@ -25,7 +25,7 @@ export const FullPost: React.FC = () => {
       })
       .catch((error) => {
         console.error("Error fetching post:", error);
-        navigate("/"); 
+        navigate("/");
       });
   }, [id, navigate]);
 
@@ -34,12 +34,12 @@ export const FullPost: React.FC = () => {
   return (
     <div className="full-post-container">
       {post && (
-          <div className="full-post-container">
-              <h1 className="full-post-content">{post?.title}</h1>
-              <ReactMarkdown className="full-post-content">
-                {markdownText}
-              </ReactMarkdown>
-          </div>
+        <div className="full-post-container">
+          <h1 className="full-post-content">{post?.title}</h1>
+          <ReactMarkdown className="full-post-content">
+            {markdownText}
+          </ReactMarkdown>
+        </div>
       )}
     </div>
   );

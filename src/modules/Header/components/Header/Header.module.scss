@@ -1,6 +1,8 @@
+$text-color: rgb(92, 71, 132);
+
 .title {
   text-align: center;
-  color: rgb(0, 0, 0);
+  color: $text-color;
   font-size: 26px;
 }
 
@@ -12,14 +14,14 @@
   font-weight: 500;
   font-family: inherit;
   background-color: transparent;
-  color: #1a1a1a;
+  color: $text-color;
   cursor: pointer;
   transition: border-color 0.25s, background-color 0.25s;
   transform: translateY(0);
   transition: transform 0.16s ease-in-out;
   &:hover {
-    background-color: rgb(233, 225, 225);
-    border-color: rgba(0, 0, 0, 0.2);
+    background-color: #e8e8f8;
+    border-color: $text-color;
     border-radius: 10px;
     transform: translateY(-2px);
   }
@@ -77,7 +79,7 @@
 }
 
 .username {
-  color: black;
+  color: $text-color;
   font-weight: 700;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -96,7 +98,7 @@
     cursor: pointer;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
   }
-  color: black;
+  color: $text-color;
   font-weight: 700;
   font-size: 0.875rem;
   line-height: 1.25rem;
