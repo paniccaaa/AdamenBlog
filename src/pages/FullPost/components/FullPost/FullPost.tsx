@@ -11,14 +11,6 @@ export const FullPost: React.FC = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState<PostType | null>(null);
 
-  const randomNum = () => {
-    return Math.floor(Math.random() * 361);
-  };
-
-  const styleObj = {
-    filter: `hue-rotate(${randomNum()}deg)`,
-  };
-
   // Используем эффект для отправки запроса к API при загрузке компонента
   useEffect(() => {
     fetch(`https://41adf6f41ba9f813.mokky.dev/posts/${id}`)
