@@ -1,7 +1,7 @@
 import 'easymde/dist/easymde.min.css'
 import styles from './Editor.module.scss'
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   DndContext,
   DragEndEvent,
@@ -30,6 +30,8 @@ import { getStructure } from '../../utils/structure'
 import type { Discipline, Section, Structure } from '../../utils/structure'
 import { useNavigate } from 'react-router-dom'
 
+const SENSOR_OPTIONS = { activationConstraint: { distance: 5 } }
+
 // ─── Sortable Section ───────────────────────────────────────────────────────
 
 function SortableSectionItem({
@@ -41,9 +43,7 @@ function SortableSectionItem({
   onAddDiscipline,
   onRenameDiscipline,
   onDeleteDiscipline,
-  onChangeDisciplinePost,
   onReorderDisciplines,
-  allPosts,
 }: {
   section: Section
   selectedKey: string | null
@@ -53,9 +53,7 @@ function SortableSectionItem({
   onAddDiscipline: (sectionId: string) => void
   onRenameDiscipline: (sectionId: string, id: string, title: string) => void
   onDeleteDiscipline: (sectionId: string, id: string) => void
-  onChangeDisciplinePost: (sectionId: string, id: string, postId: number) => void
   onReorderDisciplines: (sectionId: string, disciplines: Discipline[]) => void
-  allPosts: ReturnType<typeof getAllPosts>
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: section.id,
@@ -63,7 +61,7 @@ function SortableSectionItem({
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(PointerSensor, SENSOR_OPTIONS),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
 
@@ -120,8 +118,6 @@ function SortableSectionItem({
               onSelect={() => onSelectDiscipline(section.id, disc.id)}
               onRename={(title) => onRenameDiscipline(section.id, disc.id, title)}
               onDelete={() => onDeleteDiscipline(section.id, disc.id)}
-              onChangePost={(postId) => onChangeDisciplinePost(section.id, disc.id, postId)}
-              allPosts={allPosts}
             />
           ))}
         </SortableContext>
@@ -142,16 +138,12 @@ function SortableDisciplineItem({
   onSelect,
   onRename,
   onDelete,
-  onChangePost,
-  allPosts,
 }: {
   discipline: Discipline
   isSelected: boolean
   onSelect: () => void
   onRename: (title: string) => void
   onDelete: () => void
-  onChangePost: (postId: number) => void
-  allPosts: ReturnType<typeof getAllPosts>
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: discipline.id,
@@ -165,6 +157,8 @@ function SortableDisciplineItem({
     setEditing(false)
     if (editVal.trim()) onRename(editVal.trim())
   }
+
+  const hasPost = discipline.postId !== -1
 
   return (
     <div
@@ -196,18 +190,7 @@ function SortableDisciplineItem({
         </span>
       )}
 
-      <select
-        className={styles.post_select}
-        value={discipline.postId}
-        onChange={(e) => { e.stopPropagation(); onChangePost(Number(e.target.value)) }}
-        onClick={(e) => e.stopPropagation()}
-        title="Выбрать пост"
-      >
-        <option value={-1}>— нет —</option>
-        {allPosts.map((p) => (
-          <option key={p.id} value={p.id}>#{p.id} {p.title.slice(0, 30)}</option>
-        ))}
-      </select>
+      <span className={`${styles.post_dot} ${hasPost ? styles.post_dot_linked : ''}`} title={hasPost ? 'Есть контент' : 'Нет контента'} />
 
       <button
         className={styles.icon_btn}
@@ -229,42 +212,66 @@ export const Editor: React.FC = () => {
     if (!import.meta.env.DEV) navigate('/')
   }, [navigate])
 
-  const allPosts = getAllPosts()
+  const allPosts = useMemo(() => getAllPosts(), [])
+  const mdeOptions = useMemo(() => ({ spellChecker: false, minHeight: '400px' }), [])
+
   const [structure, setStructure] = useState<Structure>(() => getStructure())
   const [selected, setSelected] = useState<{ sectionId: string; disciplineId: string } | null>(null)
   const [postText, setPostText] = useState('')
   const [postTitle, setPostTitle] = useState('')
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
   const [contentDirty, setContentDirty] = useState(false)
+  const [creating, setCreating] = useState(false)
+  const [showLinkSelect, setShowLinkSelect] = useState(false)
+  const [showChangePost, setShowChangePost] = useState(false)
   const mdeRef = useRef<any>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(PointerSensor, SENSOR_OPTIONS),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
 
-  // Load post when discipline is selected
+  const selectedDisc = useMemo(() => {
+    if (!selected) return null
+    return structure.sections
+      .find((s) => s.id === selected.sectionId)
+      ?.disciplines.find((d) => d.id === selected.disciplineId) ?? null
+  }, [selected, structure])
+
+  const selectedSection = useMemo(() => {
+    if (!selected) return null
+    return structure.sections.find((s) => s.id === selected.sectionId) ?? null
+  }, [selected, structure])
+
+  const selectedKey = selected ? `${selected.sectionId}:${selected.disciplineId}` : null
+  const selectedDiscPostId = selectedDisc?.postId ?? null
+
   useEffect(() => {
-    if (!selected) return
-    const section = structure.sections.find((s) => s.id === selected.sectionId)
-    const disc = section?.disciplines.find((d) => d.id === selected.disciplineId)
-    if (!disc) return
-    const post = allPosts.find((p) => p.id === disc.postId)
+    if (!selectedDisc) {
+      setPostText('')
+      setPostTitle('')
+      setContentDirty(false)
+      return
+    }
+    const post = allPosts.find((p) => p.id === selectedDisc.postId)
     setPostText(post?.text ?? '')
-    setPostTitle(post?.title ?? disc.title)
+    setPostTitle(post?.title ?? selectedDisc.title)
     setContentDirty(false)
-  }, [selected])
+    setShowLinkSelect(false)
+    setShowChangePost(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedKey, selectedDiscPostId])
 
   // ── Structure mutations ────────────────────────────────────────────────────
 
-  const updateSection = (id: string, patch: Partial<Section>) =>
+  const updateSection = useCallback((id: string, patch: Partial<Section>) =>
     setStructure((prev) => ({
       ...prev,
       sections: prev.sections.map((s) => (s.id === id ? { ...s, ...patch } : s)),
-    }))
+    })), [])
 
-  const updateDiscipline = (sectionId: string, discId: string, patch: Partial<Discipline>) =>
+  const updateDiscipline = useCallback((sectionId: string, discId: string, patch: Partial<Discipline>) =>
     setStructure((prev) => ({
       ...prev,
       sections: prev.sections.map((s) =>
@@ -272,20 +279,20 @@ export const Editor: React.FC = () => {
           ? { ...s, disciplines: s.disciplines.map((d) => (d.id === discId ? { ...d, ...patch } : d)) }
           : s
       ),
-    }))
+    })), [])
 
-  const addSection = () => {
+  const addSection = useCallback(() => {
     const id = 'section-' + Date.now()
     setStructure((prev) => ({
       ...prev,
       sections: [...prev.sections, { id, title: 'Новый курс', order: prev.sections.length, disciplines: [] }],
     }))
-  }
+  }, [])
 
-  const deleteSection = (id: string) =>
-    setStructure((prev) => ({ ...prev, sections: prev.sections.filter((s) => s.id !== id) }))
+  const deleteSection = useCallback((id: string) =>
+    setStructure((prev) => ({ ...prev, sections: prev.sections.filter((s) => s.id !== id) })), [])
 
-  const addDiscipline = (sectionId: string) => {
+  const addDiscipline = useCallback((sectionId: string) => {
     const id = 'disc-' + Date.now()
     setStructure((prev) => ({
       ...prev,
@@ -295,31 +302,33 @@ export const Editor: React.FC = () => {
               ...s,
               disciplines: [
                 ...s.disciplines,
-                { id, title: 'Новая дисциплина', postId: allPosts[0]?.id ?? 0, order: s.disciplines.length },
+                { id, title: 'Новая дисциплина', postId: -1, order: s.disciplines.length },
               ],
             }
           : s
       ),
     }))
-  }
+  }, [])
 
-  const deleteDiscipline = (sectionId: string, discId: string) => {
-    if (selected?.sectionId === sectionId && selected?.disciplineId === discId) setSelected(null)
+  const deleteDiscipline = useCallback((sectionId: string, discId: string) => {
+    setSelected((prev) =>
+      prev?.sectionId === sectionId && prev?.disciplineId === discId ? null : prev
+    )
     setStructure((prev) => ({
       ...prev,
       sections: prev.sections.map((s) =>
         s.id === sectionId ? { ...s, disciplines: s.disciplines.filter((d) => d.id !== discId) } : s
       ),
     }))
-  }
+  }, [])
 
-  const reorderDisciplines = (sectionId: string, disciplines: Discipline[]) =>
+  const reorderDisciplines = useCallback((sectionId: string, disciplines: Discipline[]) =>
     setStructure((prev) => ({
       ...prev,
       sections: prev.sections.map((s) => (s.id === sectionId ? { ...s, disciplines } : s)),
-    }))
+    })), [])
 
-  const handleSectionDragEnd = (event: DragEndEvent) => {
+  const handleSectionDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event
     if (!over || active.id === over.id) return
     setStructure((prev) => {
@@ -328,7 +337,19 @@ export const Editor: React.FC = () => {
         .map((s, i) => ({ ...s, order: i }))
       return { ...prev, sections: reordered }
     })
-  }
+  }, [])
+
+  const handleSelectDiscipline = useCallback((sId: string, dId: string) => {
+    setSelected({ sectionId: sId, disciplineId: dId })
+  }, [])
+
+  const handleRenameSection = useCallback((id: string, title: string) => {
+    updateSection(id, { title })
+  }, [updateSection])
+
+  const handleRenameDiscipline = useCallback((sId: string, dId: string, title: string) => {
+    updateDiscipline(sId, dId, { title })
+  }, [updateDiscipline])
 
   // ── Save structure ─────────────────────────────────────────────────────────
 
@@ -343,17 +364,63 @@ export const Editor: React.FC = () => {
     setTimeout(() => setSaveStatus('idle'), 2000)
   }
 
+  const saveStructureWith = async (newStructure: Structure) => {
+    await fetch('/api/dev/structure', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newStructure),
+    })
+  }
+
+  // ── Link post helpers ──────────────────────────────────────────────────────
+
+  const linkPostToSelected = async (postId: number) => {
+    if (!selected) return
+    const newStructure: Structure = {
+      ...structure,
+      sections: structure.sections.map((s) =>
+        s.id === selected.sectionId
+          ? {
+              ...s,
+              disciplines: s.disciplines.map((d) =>
+                d.id === selected.disciplineId ? { ...d, postId } : d
+              ),
+            }
+          : s
+      ),
+    }
+    setStructure(newStructure)
+    await saveStructureWith(newStructure)
+    setShowLinkSelect(false)
+    setShowChangePost(false)
+  }
+
+  // ── Create new post for selected discipline ────────────────────────────────
+
+  const handleCreatePost = async () => {
+    if (!selected || !selectedDisc) return
+    setCreating(true)
+    try {
+      const res = await fetch('/api/dev/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: selectedDisc.title, text: '' }),
+      })
+      const { id } = await res.json()
+      await linkPostToSelected(id)
+    } finally {
+      setCreating(false)
+    }
+  }
+
   // ── Save post content ──────────────────────────────────────────────────────
 
   const savePost = async () => {
-    if (!selected) return
-    const section = structure.sections.find((s) => s.id === selected.sectionId)
-    const disc = section?.disciplines.find((d) => d.id === selected.disciplineId)
-    if (!disc) return
+    if (!selectedDisc || selectedDisc.postId === -1) return
     await fetch('/api/dev/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: disc.postId, title: postTitle, text: postText }),
+      body: JSON.stringify({ id: selectedDisc.postId, title: postTitle, text: postText }),
     })
     setContentDirty(false)
   }
@@ -387,10 +454,6 @@ export const Editor: React.FC = () => {
     setPostText(val)
     setContentDirty(true)
   }, [])
-
-  const selectedDisc = selected
-    ? structure.sections.find((s) => s.id === selected.sectionId)?.disciplines.find((d) => d.id === selected.disciplineId)
-    : null
 
   return (
     <div className={styles.editor}>
@@ -437,16 +500,14 @@ export const Editor: React.FC = () => {
                 <SortableSectionItem
                   key={section.id}
                   section={section}
-                  selectedKey={selected ? `${selected.sectionId}:${selected.disciplineId}` : null}
-                  onSelectDiscipline={(sId, dId) => setSelected({ sectionId: sId, disciplineId: dId })}
-                  onRenameSection={(id, title) => updateSection(id, { title })}
+                  selectedKey={selectedKey}
+                  onSelectDiscipline={handleSelectDiscipline}
+                  onRenameSection={handleRenameSection}
                   onDeleteSection={deleteSection}
                   onAddDiscipline={addDiscipline}
-                  onRenameDiscipline={(sId, dId, title) => updateDiscipline(sId, dId, { title })}
+                  onRenameDiscipline={handleRenameDiscipline}
                   onDeleteDiscipline={deleteDiscipline}
-                  onChangeDisciplinePost={(sId, dId, postId) => updateDiscipline(sId, dId, { postId })}
                   onReorderDisciplines={reorderDisciplines}
-                  allPosts={allPosts}
                 />
               ))}
             </SortableContext>
@@ -461,10 +522,62 @@ export const Editor: React.FC = () => {
       {/* ── Right panel ── */}
       <main className={styles.content}>
         {!selected ? (
+          /* No discipline selected */
           <div className={styles.empty_state}>
             <p>Выберите дисциплину слева,<br />чтобы редактировать её содержимое</p>
           </div>
+        ) : selectedDisc?.postId === -1 ? (
+          /* Discipline selected but has no post yet */
+          <div className={styles.no_post_state}>
+            <div className={styles.no_post_breadcrumb}>
+              <span>{selectedSection?.title}</span>
+              <span className={styles.breadcrumb_sep}>/</span>
+              <span>{selectedDisc?.title}</span>
+            </div>
+            <div className={styles.no_post_card}>
+              <div className={styles.no_post_icon}>✦</div>
+              <h3 className={styles.no_post_title}>Нет контента</h3>
+              <p className={styles.no_post_desc}>
+                Эта дисциплина ещё не привязана к посту.
+                <br />Создайте новый или привяжите существующий.
+              </p>
+              <button
+                className={styles.create_btn}
+                onClick={handleCreatePost}
+                disabled={creating}
+              >
+                {creating ? 'Создание...' : '+ Создать новый пост'}
+              </button>
+              <div className={styles.no_post_divider}>
+                <span>или</span>
+              </div>
+              {showLinkSelect ? (
+                <div className={styles.link_select_row}>
+                  <select
+                    className={styles.link_post_select}
+                    defaultValue={-1}
+                    autoFocus
+                    onChange={(e) => {
+                      const id = Number(e.target.value)
+                      if (id !== -1) linkPostToSelected(id)
+                    }}
+                  >
+                    <option value={-1}>— выберите пост —</option>
+                    {allPosts.map((p) => (
+                      <option key={p.id} value={p.id}>#{p.id} {p.title}</option>
+                    ))}
+                  </select>
+                  <button className={styles.cancel_link_btn} onClick={() => setShowLinkSelect(false)}>✕</button>
+                </div>
+              ) : (
+                <button className={styles.link_btn} onClick={() => setShowLinkSelect(true)}>
+                  Привязать существующий пост
+                </button>
+              )}
+            </div>
+          </div>
         ) : (
+          /* Discipline has a linked post — show editor */
           <div className={styles.post_editor}>
             <div className={styles.post_editor_header}>
               <input
@@ -492,16 +605,41 @@ export const Editor: React.FC = () => {
                 </button>
               </div>
             </div>
-            {selectedDisc && (
-              <div className={styles.post_id_hint}>
-                Post ID: {selectedDisc.postId} · Дисциплина: {selectedDisc.title}
+
+            <div className={styles.post_meta_row}>
+              <span className={styles.post_breadcrumb}>
+                {selectedSection?.title}
+                <span className={styles.breadcrumb_sep}>/</span>
+                {selectedDisc?.title}
+              </span>
+              <button
+                className={styles.change_post_toggle}
+                onClick={() => setShowChangePost((v) => !v)}
+              >
+                {showChangePost ? 'Скрыть' : 'Сменить пост'}
+              </button>
+            </div>
+
+            {showChangePost && (
+              <div className={styles.change_post_row}>
+                <span className={styles.change_post_label}>Привязать другой пост:</span>
+                <select
+                  className={styles.link_post_select}
+                  value={selectedDisc?.postId ?? -1}
+                  onChange={(e) => linkPostToSelected(Number(e.target.value))}
+                >
+                  {allPosts.map((p) => (
+                    <option key={p.id} value={p.id}>#{p.id} {p.title}</option>
+                  ))}
+                </select>
               </div>
             )}
+
             <SimpleMDE
               value={postText}
               onChange={onMdeChange}
               getMdeInstance={(instance) => { mdeRef.current = instance }}
-              options={{ spellChecker: false, minHeight: '400px' }}
+              options={mdeOptions}
             />
           </div>
         )}

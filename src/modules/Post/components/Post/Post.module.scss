@@ -26,14 +26,22 @@
       inset 0 1px 0 rgba(255, 255, 255, 1),
       inset 1px 0 0 rgba(255, 255, 255, 0.7);
   }
+
+  @media (max-width: 480px) {
+    border-radius: 14px;
+    aspect-ratio: 3 / 2;
+
+    &:hover { transform: none; }
+  }
 }
 
 .featured {
   aspect-ratio: 16 / 6;
 
-  &:hover {
-    transform: translateY(-6px);
-  }
+  &:hover { transform: translateY(-6px); }
+
+  @media (max-width: 768px) { aspect-ratio: 16 / 7; }
+  @media (max-width: 480px) { aspect-ratio: 16 / 9; border-radius: 14px; }
 }
 
 .post_overlay {
@@ -52,9 +60,24 @@
   font-weight: 700;
   line-height: 1.45;
   z-index: 1;
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+    padding: 1rem 1rem 1.2rem;
+  }
 }
 
 .featured_title {
   font-size: 1.6rem;
   padding: 2rem 2.4rem 2.4rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.35rem;
+    padding: 1.5rem 1.75rem 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.15rem;
+    padding: 1.2rem 1.4rem 1.5rem;
+  }
 }

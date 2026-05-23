@@ -7,26 +7,13 @@
       "id": "s4",
       "title": "Курс 4",
       "order": 0,
-      "disciplines": [
-        {
-          "id": "d11",
-          "title": "Курс 4 (обзор)",
-          "postId": 11,
-          "order": 0
-        }
-      ]
+      "disciplines": []
     },
     {
       "id": "s3",
       "title": "Курс 3",
       "order": 1,
       "disciplines": [
-        {
-          "id": "d10",
-          "title": "Курс 3 (обзор)",
-          "postId": 10,
-          "order": 0
-        },
         {
           "id": "d6",
           "title": "5 Семестр",
@@ -47,12 +34,6 @@
       "order": 2,
       "disciplines": [
         {
-          "id": "d9",
-          "title": "Курс 2 (обзор)",
-          "postId": 9,
-          "order": 0
-        },
-        {
           "id": "d4",
           "title": "3 Семестр",
           "postId": 4,
@@ -67,27 +48,15 @@
       ]
     },
     {
-      "id": "s1",
-      "title": "Курс 1",
+      "id": "section-1779527201753",
+      "title": "КУРС 1",
       "order": 3,
       "disciplines": [
         {
-          "id": "d8",
-          "title": "Курс 1 (обзор)",
-          "postId": 8,
-          "order": 0
-        },
-        {
-          "id": "d2",
-          "title": "1 Семестр",
+          "id": "disc-1779527208136",
+          "title": "ДЛЯ ТЕСТА",
           "postId": 2,
-          "order": 1
-        },
-        {
-          "id": "d3",
-          "title": "2 Семестр",
-          "postId": 3,
-          "order": 2
+          "order": 0
         }
       ]
     },

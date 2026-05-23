@@ -226,6 +226,20 @@ $border: rgba(255, 255, 255, 0.08);
   cursor: pointer;
 }
 
+.post_dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.post_dot_linked {
+  background: #40916c;
+  box-shadow: 0 0 4px rgba(64, 145, 108, 0.6);
+}
+
+// Used only in featured row
 .post_select {
   background: $bg-dark3;
   border: 1px solid $border;
@@ -300,6 +314,156 @@ $border: rgba(255, 255, 255, 0.08);
   line-height: 1.8;
 }
 
+// ── No post state ─────────────────────────────────────────────────────────────
+
+.no_post_state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem;
+  gap: 1.5rem;
+}
+
+.no_post_breadcrumb {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $text-muted;
+}
+
+.no_post_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.5rem 2rem;
+  border: 1px dashed rgba(92, 71, 132, 0.3);
+  border-radius: 16px;
+  background: rgba(92, 71, 132, 0.04);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.no_post_icon {
+  font-size: 2rem;
+  color: rgba(92, 71, 132, 0.3);
+  line-height: 1;
+}
+
+.no_post_title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgba(92, 71, 132, 0.7);
+}
+
+.no_post_desc {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.45);
+  line-height: 1.6;
+}
+
+.create_btn {
+  padding: 0.65rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  background: $purple;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  width: 100%;
+
+  &:hover:not(:disabled) {
+    background: darken($purple, 8%);
+    box-shadow: 0 4px 12px rgba(92, 71, 132, 0.35);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.no_post_divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.75rem;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 0.75rem;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.link_btn {
+  background: none;
+  border: 1px solid rgba(92, 71, 132, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: $purple;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: rgba(92, 71, 132, 0.06);
+    border-color: $purple;
+  }
+}
+
+.link_select_row {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.link_post_select {
+  flex: 1;
+  background: white;
+  border: 1px solid rgba(92, 71, 132, 0.3);
+  border-radius: 8px;
+  color: #333;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+
+  &:focus, &:hover { border-color: $purple; }
+  option { background: white; }
+}
+
+.cancel_link_btn {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  background: none;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 0.82rem;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover { background: rgba(0, 0, 0, 0.05); }
+}
+
+// ── Post editor ───────────────────────────────────────────────────────────────
+
 .post_editor {
   flex: 1;
   display: flex;
@@ -337,9 +501,56 @@ $border: rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
 
-.post_id_hint {
+.post_meta_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.post_breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.72rem;
-  color: rgba(92, 71, 132, 0.4);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(92, 71, 132, 0.5);
+}
+
+.breadcrumb_sep {
+  opacity: 0.4;
+}
+
+.change_post_toggle {
+  background: none;
+  border: none;
+  font-size: 0.72rem;
+  color: rgba(92, 71, 132, 0.45);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  flex-shrink: 0;
+
+  &:hover { color: $purple; }
+}
+
+.change_post_row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(92, 71, 132, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(92, 71, 132, 0.12);
+}
+
+.change_post_label {
+  font-size: 0.78rem;
+  color: rgba(92, 71, 132, 0.6);
+  white-space: nowrap;
 }
 
 .outline_btn {

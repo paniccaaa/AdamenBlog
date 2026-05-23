@@ -1,8 +1,8 @@
 .title {
-  text-align: center;
   color: #5c4784;
   font-size: 1.25rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .nav {
@@ -22,6 +22,11 @@
     background-color: rgba(30, 18, 50, 0.05);
     transform: translateY(-2px);
   }
+
+  @media (max-width: 480px) {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.875rem;
+  }
 }
 
 .header_container {
@@ -33,16 +38,19 @@
   padding: 0.75rem 0;
   border-bottom: 1px solid rgba(30, 18, 50, 0.08);
 
-  @media screen and (max-width: 512px) {
+  @media (max-width: 512px) {
     flex-direction: column;
-    text-align: center;
+    align-items: flex-start;
     gap: 0.5rem;
   }
 }
 
 .button_container {
   display: flex;
-  @media screen and (max-width: 512px) {
-    align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+
+  @media (max-width: 512px) {
+    width: 100%;
   }
 }

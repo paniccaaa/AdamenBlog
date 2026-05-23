@@ -19,21 +19,22 @@ export const Home: React.FC = () => {
       {structure.sections.map((section) => (
         <section key={section.id} className={styles.section}>
           <h2 className={styles.section_title}>{section.title}</h2>
-          {section.disciplines.length > 0 && (
-            <div className={styles.grid}>
-              {section.disciplines.map((discipline) => {
-                const post = getPostById(discipline.postId)
-                if (!post) return null
-                return (
+          {section.disciplines.length > 0 && (() => {
+            const cards = section.disciplines
+              .map((discipline) => ({ discipline, post: getPostById(discipline.postId) }))
+              .filter(({ post }) => post != null)
+            return (
+              <div className={styles.grid} data-count={Math.min(cards.length, 3)}>
+                {cards.map(({ discipline, post }) => (
                   <Post
                     key={discipline.id}
-                    post={{ ...post, title: discipline.title }}
+                    post={{ ...post!, title: discipline.title }}
                     courseIndex={section.order}
                   />
-                )
-              })}
-            </div>
-          )}
+                ))}
+              </div>
+            )
+          })()}
         </section>
       ))}
     </div>
