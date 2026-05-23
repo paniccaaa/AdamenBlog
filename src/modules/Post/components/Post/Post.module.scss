@@ -10,8 +10,11 @@
   position: relative;
   border-radius: 18px;
   overflow: hidden;
-  aspect-ratio: 4 / 5;
+  height: 160px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow:
     0 1px 8px rgba(0, 0, 0, 0.06),
@@ -29,19 +32,18 @@
 
   @media (max-width: 480px) {
     border-radius: 14px;
-    aspect-ratio: 3 / 2;
+    height: 120px;
 
     &:hover { transform: none; }
   }
 }
 
 .featured {
-  aspect-ratio: 16 / 6;
+  height: 200px;
 
   &:hover { transform: translateY(-6px); }
 
-  @media (max-width: 768px) { aspect-ratio: 16 / 7; }
-  @media (max-width: 480px) { aspect-ratio: 16 / 9; border-radius: 14px; }
+  @media (max-width: 480px) { height: 160px; border-radius: 14px; }
 }
 
 .post_overlay {
@@ -49,35 +51,24 @@
 }
 
 .post_title {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   margin: 0;
-  padding: 1.4rem 1.4rem 1.6rem;
+  padding: 1rem;
   color: rgba(30, 18, 50, 0.72);
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.45;
+  text-align: center;
   z-index: 1;
 
   @media (max-width: 480px) {
     font-size: 0.95rem;
-    padding: 1rem 1rem 1.2rem;
   }
 }
 
 .featured_title {
   font-size: 1.6rem;
-  padding: 2rem 2.4rem 2.4rem;
+  padding: 1rem;
 
-  @media (max-width: 768px) {
-    font-size: 1.35rem;
-    padding: 1.5rem 1.75rem 2rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.15rem;
-    padding: 1.2rem 1.4rem 1.5rem;
-  }
+  @media (max-width: 768px) { font-size: 1.35rem; }
+  @media (max-width: 480px) { font-size: 1.15rem; }
 }
