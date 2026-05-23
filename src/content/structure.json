@@ -7,7 +7,20 @@
       "id": "s4",
       "title": "Курс 4",
       "order": 0,
-      "disciplines": []
+      "disciplines": [
+        {
+          "id": "d-sem7",
+          "title": "7 Семестр",
+          "postId": 13,
+          "order": 1
+        },
+        {
+          "id": "d-sem8",
+          "title": "8 Семестр",
+          "postId": 14,
+          "order": 2
+        }
+      ]
     },
     {
       "id": "s3",
@@ -48,15 +61,21 @@
       ]
     },
     {
-      "id": "section-1779527201753",
-      "title": "КУРС 1",
+      "id": "s1",
+      "title": "Курс 1",
       "order": 3,
       "disciplines": [
         {
-          "id": "disc-1779527208136",
-          "title": "ДЛЯ ТЕСТА",
+          "id": "d-sem1",
+          "title": "1 Семестр",
           "postId": 2,
-          "order": 0
+          "order": 1
+        },
+        {
+          "id": "d-sem2",
+          "title": "2 Семестр",
+          "postId": 3,
+          "order": 2
         }
       ]
     },
