@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -10,6 +13,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
@@ -25,7 +31,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
-    "react-hook-form": "^7.44.3",
     "react-markdown": "^8.0.7",
     "react-redux": "^8.1.0",
     "react-router-dom": "^6.12.1",

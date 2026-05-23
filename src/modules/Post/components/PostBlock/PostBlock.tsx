@@ -1,37 +1,23 @@
-import { Post } from "../Post/Post";
-import React from "react";
-import { setPosts } from "../../store/reducer/posts";
-import { useAppDispatch } from "../../../../redux/store";
+import { Post } from '../Post/Post'
+import React from 'react'
+import { getAllPosts } from '../../../../utils/posts'
 
 export type PostType = {
-  title: string;
-  text: string;
-  image: string;
-  id: number;
-};
-//https://41adf6f41ba9f813.mokky.dev
+  title: string
+  text: string
+  image: string
+  id: number
+  course?: string
+  featured?: boolean
+}
+
 export const PostBlock: React.FC = () => {
-  const [posts, setPostss] = React.useState<PostType[] | []>([]);
-  const dispatch = useAppDispatch();
-  React.useEffect(() => {
-    fetch("https://41adf6f41ba9f813.mokky.dev/posts")
-      .then((response) => response.json())
-      .then((data) => setPostss(data))
-      .catch((error) => {
-        console.log(error);
-        alert("Извините, произошла ошибка при получении постов :(");
-      });
-  }, []);
-
-  React.useEffect(() => {
-    dispatch(setPosts(posts));
-  }, [posts]);
-
+  const posts = getAllPosts()
   return (
-    <div>
-      {posts.reverse().map((post: PostType) => (
-        <Post key={post.title} post={post} />
+    <>
+      {posts.map((post) => (
+        <Post key={post.id} post={post} />
       ))}
-    </div>
-  );
-};
+    </>
+  )
+}
