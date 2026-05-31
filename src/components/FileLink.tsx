@@ -25,7 +25,8 @@ export const FileLink: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   }, [])
 
   // локальный файл только когда: запущено локально И нет интернета
-  const url = !online && isLocalhost && title?.startsWith('/works/') ? title : href
+  const isLocalTitle = title?.startsWith('/works/') || title?.startsWith('/github_works/')
+  const url = !online && isLocalhost && isLocalTitle ? title : href
 
   return (
     <a {...rest} href={url} target="_blank" rel="noopener noreferrer">

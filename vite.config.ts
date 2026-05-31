@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
+import { marked } from 'marked'
 
 const POSTS_DIR      = path.resolve(__dirname, 'src/content/posts')
 const IMAGES_DIR     = path.resolve(__dirname, 'public/images')
@@ -81,6 +82,51 @@ function devPostsPlugin() {
   }
 }
 
+function markdownViewerPlugin() {
+  return {
+    name: 'markdown-viewer',
+    configureServer(server: import('vite').ViteDevServer) {
+      server.middlewares.use((req, res, next) => {
+        const url = req.url?.split('?')[0] ?? ''
+        if (!url.startsWith('/github_works/') || !url.endsWith('.md')) return next()
+
+        const filePath = path.resolve(__dirname, 'public' + decodeURIComponent(url))
+        if (!fs.existsSync(filePath)) return next()
+
+        const raw = fs.readFileSync(filePath, 'utf-8')
+        const html = marked.parse(raw) as string
+        const fileName = path.basename(url)
+        const backUrl = url.substring(0, url.lastIndexOf('/') + 1)
+
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
+        res.end(`<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${fileName}</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1.5rem; color: #222; line-height: 1.7 }
+    h1,h2,h3 { border-bottom: 1px solid #eee; padding-bottom: .3em }
+    code { background: #f4f4f4; padding: .2em .4em; border-radius: 4px; font-size: .9em }
+    pre { background: #f4f4f4; padding: 1em; border-radius: 6px; overflow-x: auto }
+    pre code { background: none; padding: 0 }
+    a { color: #2563eb }
+    img { max-width: 100% }
+    nav { margin-bottom: 1.5rem; font-size: .9rem }
+    nav a { color: #2563eb; text-decoration: none }
+  </style>
+</head>
+<body>
+  <nav>← <a href="${backUrl}">Назад</a></nav>
+  ${html}
+</body>
+</html>`)
+      })
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [react(), devPostsPlugin()],
+  plugins: [react(), devPostsPlugin(), markdownViewerPlugin()],
 })

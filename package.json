@@ -10,7 +10,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "download-github": "node scripts/download_github_works.js",
+    "convert-pdf": "node scripts/convert_to_pdf.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
