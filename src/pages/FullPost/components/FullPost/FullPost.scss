@@ -1,3 +1,41 @@
+.full-post-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+
+  .full-post-title {
+    margin: 0;
+    flex: 1;
+  }
+}
+
+.full-post-pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  background: rgba(92, 71, 132, 0.08);
+  color: #5c4784;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &::before {
+    content: '📄';
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background: rgba(92, 71, 132, 0.14);
+  }
+}
+
 .full-post-container {
   max-width: 680px;
   margin: 0 auto;
@@ -17,7 +55,7 @@
   font-weight: 700;
   color: #1e1230;
   line-height: 1.3;
-  margin: 0 0 2rem;
+  margin: 0;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;

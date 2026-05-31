@@ -9,6 +9,7 @@ export type PostType = {
   id: number
   course?: string
   featured?: boolean
+  pdf?: string
 }
 
 export const PostBlock: React.FC = () => {

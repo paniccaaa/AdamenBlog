@@ -4,6 +4,7 @@ import { About } from './pages/About/components/About/About'
 import { Contacts } from './pages/Contacts/components/Contacts/Contacts'
 import { Editor } from './pages/Editor/Editor'
 import { FullPost } from './pages/FullPost/components/FullPost/FullPost'
+import { Publications } from './pages/Publications/Publications'
 import { Header } from './modules/Header'
 import { Home } from './pages/Home/components/Home/Home'
 import styles from './App.module.scss'
@@ -15,6 +16,7 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/publications" element={<Publications />} />
         <Route path="/editor" element={<Editor />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/post/:id" element={<FullPost />} />

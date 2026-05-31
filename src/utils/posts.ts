@@ -29,6 +29,7 @@ export function getAllPosts(): PostType[] {
         text: content,
         course: data.course as string | undefined,
         featured: data.featured as boolean | undefined,
+        pdf: data.pdf as string | undefined,
       }
     })
     .sort((a, b) => b.id - a.id)

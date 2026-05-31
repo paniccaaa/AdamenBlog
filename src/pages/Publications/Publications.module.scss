@@ -1,0 +1,44 @@
+.page {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: calc(100vh - 80px);
+
+  @media (max-width: 480px) {
+    padding-top: 1rem;
+    height: calc(100vh - 100px);
+  }
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: rgba(30, 18, 50, 0.72);
+}
+
+.badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(30, 18, 50, 0.35);
+  white-space: nowrap;
+}
+
+.embed {
+  flex: 1;
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+}

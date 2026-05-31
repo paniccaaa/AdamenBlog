@@ -1,0 +1,71 @@
+.card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  height: 160px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 1px 0 0 rgba(255, 255, 255, 0.7);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  user-select: none;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 8px 28px rgba(0, 0, 0, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      inset 1px 0 0 rgba(255, 255, 255, 0.7);
+  }
+
+  @media (max-width: 480px) {
+    border-radius: 14px;
+    height: 120px;
+    &:hover { transform: none; }
+  }
+}
+
+.featured {
+  height: 200px;
+
+  &:hover { transform: translateY(-6px); }
+
+  @media (max-width: 480px) { height: 160px; border-radius: 14px; }
+}
+
+.title {
+  margin: 0;
+  color: rgba(30, 18, 50, 0.72);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+  }
+}
+
+.featured_title {
+  font-size: 1.6rem;
+  padding: 1rem;
+
+  @media (max-width: 768px) { font-size: 1.35rem; }
+  @media (max-width: 480px) { font-size: 1.15rem; }
+}
+
+.description {
+  margin: 0;
+  color: rgba(30, 18, 50, 0.48);
+  font-size: 0.78rem;
+  text-align: center;
+  line-height: 1.35;
+}

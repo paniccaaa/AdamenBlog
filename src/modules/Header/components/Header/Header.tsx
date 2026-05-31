@@ -21,6 +21,10 @@ export const Header: React.FC = () => {
           <button className={styles.nav}>Обо мне</button>
         </Link>
 
+        <Link to="/publications">
+          <button className={styles.nav}>Публикации</button>
+        </Link>
+
         <Link to="/contacts">
           <button className={styles.nav}>Контакты</button>
         </Link>
