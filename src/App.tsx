@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
+import { About } from './pages/About/components/About/About'
 import { Contacts } from './pages/Contacts/components/Contacts/Contacts'
 import { Editor } from './pages/Editor/Editor'
 import { FullPost } from './pages/FullPost/components/FullPost/FullPost'
@@ -13,6 +14,7 @@ export const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/editor" element={<Editor />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/post/:id" element={<FullPost />} />
