@@ -4,6 +4,7 @@ import styles from './About.module.scss'
 const experience = {
   company: 'Magnit Tech',
   role: 'Ведущий Golang разработчик',
+  period: 'март 2025 — настоящее время',
   description:
     'Развивал отчётную систему аналитики: продажи, потери, средний чек, трафик покупателей, nps, csi и более 30+ метрик.',
   achievements: [
@@ -54,6 +55,7 @@ export const About: React.FC = () => {
             <div>
               <span className={styles.company}>{experience.company}</span>
               <span className={styles.role}>{experience.role}</span>
+              <span className={styles.period}>{experience.period}</span>
             </div>
           </div>
 

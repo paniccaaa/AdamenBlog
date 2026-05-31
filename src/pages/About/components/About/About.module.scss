@@ -149,6 +149,14 @@ $text-muted: rgba(30, 18, 50, 0.55);
   margin-top: 0.15rem;
 }
 
+.period {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: $text-muted;
+  margin-top: 0.25rem;
+}
+
 .product {
   display: block;
   font-size: 0.8rem;
