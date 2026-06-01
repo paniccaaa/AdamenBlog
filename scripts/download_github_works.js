@@ -163,6 +163,34 @@ function extractGithubLinks(content) {
   return links
 }
 
+// ── Скачивание картинок из markdown-файлов ────────────────────────────────
+
+async function downloadMarkdownImages(mdContent, owner, repo, branch, mdDir, outputDir) {
+  const re = /!\[[^\]]*\]\(([^)]+)\)/g
+  let m
+  while ((m = re.exec(mdContent)) !== null) {
+    const src = m[1].trim()
+    if (src.startsWith('http')) continue // только относительные пути
+
+    const imgRepoPath = mdDir ? `${mdDir}/${src}` : src
+    const outPath = join(outputDir, src)
+
+    if (existsSync(outPath)) {
+      process.stdout.write(`    ⏭  ${src} уже есть\n`)
+      continue
+    }
+
+    try {
+      const buf = await downloadRawFile(owner, repo, branch, imgRepoPath)
+      mkdirSync(dirname(outPath), { recursive: true })
+      writeFileSync(outPath, Buffer.from(buf))
+      process.stdout.write(`    🖼  ${src} (${(buf.byteLength / 1024).toFixed(0)}KB)\n`)
+    } catch (e) {
+      process.stdout.write(`    ⚠️  ${src}: ${e.message}\n`)
+    }
+  }
+}
+
 // ── Главная функция ────────────────────────────────────────────────────────
 
 async function main() {
@@ -200,6 +228,12 @@ async function main() {
         mkdirSync(dirname(outBase), { recursive: true })
         writeFileSync(outBase, Buffer.from(buf))
         console.log(`  ✅ ${(buf.byteLength / 1024).toFixed(0)}KB`)
+
+        if (path.endsWith('.md')) {
+          const mdContent = Buffer.from(buf).toString('utf-8')
+          const mdDir = dirname(path) === '.' ? '' : dirname(path)
+          await downloadMarkdownImages(mdContent, owner, repo, branch, mdDir, dirname(outBase))
+        }
       } else {
         mkdirSync(outBase, { recursive: true })
         const files = await downloadDir(owner, repo, branch, path, outBase)
