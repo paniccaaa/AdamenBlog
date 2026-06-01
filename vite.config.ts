@@ -127,6 +127,21 @@ function markdownViewerPlugin() {
   }
 }
 
+function pdfInlinePlugin() {
+  return {
+    name: 'pdf-inline',
+    configureServer(server: import('vite').ViteDevServer) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url?.split('?')[0].endsWith('.pdf')) {
+          res.setHeader('Content-Type', 'application/pdf')
+          res.setHeader('Content-Disposition', 'inline')
+        }
+        next()
+      })
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [react(), devPostsPlugin(), markdownViewerPlugin()],
+  plugins: [react(), devPostsPlugin(), markdownViewerPlugin(), pdfInlinePlugin()],
 })

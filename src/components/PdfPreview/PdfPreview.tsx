@@ -25,10 +25,10 @@ export const PdfPreview: React.FC<PdfPreviewProps> = ({ src, title, onClose }) =
           <span className={styles.title}>{title}</span>
           <button className={styles.close} onClick={onClose} aria-label="Закрыть">✕</button>
         </div>
-        <embed
+        <iframe
           src={src}
-          type="application/pdf"
           className={styles.embed}
+          title={title}
         />
       </div>
     </div>

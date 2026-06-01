@@ -8,10 +8,10 @@ export const Publications: React.FC = () => {
         <h2 className={styles.title}>Разработка системы управления задачами на базе Telegram-бота</h2>
         <span className={styles.badge}>Статья</span>
       </div>
-      <embed
+      <iframe
         src="/publications/telegram-bot-article.pdf"
-        type="application/pdf"
         className={styles.embed}
+        title="Разработка системы управления задачами на базе Telegram-бота"
       />
     </div>
   )
